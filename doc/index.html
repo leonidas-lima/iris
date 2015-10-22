@@ -1,34 +1,28 @@
 <HTML>
 <HEAD>
-<TITLE>Iperf version 2.0.0</TITLE>
-<!-- $Id: index.html,v 1.1.1.1 2004/05/18 01:50:44 kgibbs Exp $ -->
+<TITLE>IRIS version 1.0.0</TITLE>
+<!-- $Id: index.html,v 1.0.0 2015/10/22 07:35:00 lflj@cin.ufpe.br -->
 </HEAD>
 
 <BODY BGCOLOR="#FFFFFF" LINK="#006633" VLINK="#669900" ALINK="#669966">
 
 <CENTER>
-<P><IMG SRC="dast.gif"
-        ALT="Distributed Applications Support Team"></P>
+<P><IMG SRC="cin.gif"
+        ALT="Informatics Center - UFPE"></P>
 </CENTER>
 
-<H1>Iperf version 2.0.0</H1>
+<H1>IRIS (<A HREF="iperf.html">Iperf</A> with RINA and IP networks Support) version 1.0.0</H1>
 
-<H3>May 2004</H3>
+<H3>Oct 2015</H3>
+<H4>Leonidas Lima<br>
+<A HREF="mailto:lflj@cin.ufpe.br">&lt;lflj@cin.ufpe.br&gt;</A></H4>
 
 <HR><!-- ----- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- -->
 
-<H3>NLANR applications support
-<BR><A HREF="http://dast.nlanr.net/">http://dast.nlanr.net/</A>
-<BR><A HREF="mailto:dast@nlanr.net">&lt;dast@nlanr.net&gt;</A>
-</H3>
 <P><FONT face="arial,helvetica">
-<H1>Iperf User Docs</H1>
-<H4>Mark Gates<br>
-    Ajay Tirumala<BR>
-    Jon Dugan<BR>
-    Kevin Gibbs<BR> </H4>
+<H1>IRIS User Docs</H1>
 
-May 2004 
+Oct 2015 
 <P></CENTER>
 [<a href="#compiling">Compiling</A> | 
 <A href="#features">Features</A>&nbsp; | 
@@ -37,38 +31,37 @@ May 2004
 <A href="#multicast">Running multicast servers and clients</A> | 
 <A href="#ipv6">IPv6 Mode</A> | 
 <A href="#repmode">Representative Streams</A> |
-<A href="#daemon"> Running Iperf as a daemon</A> |
-<!--<A href="#adaptive">Adaptive Window Sizes</A> | --> 
-<A href="#service">Running Iperf as a Windows Service</A> ] 
+<A href="#daemon"> Running IRIS as a daemon</A> |
+<A href="#service">Running IRIS as a Windows Service</A> ] 
 <HR>
 <!-- ----- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- -->
 <H2><A name=compiling></A>Compiling</H2>
 
-Once you have the distribution, on UNIX, 
-unpack it using gzip and tar. That will create a new directory 
-'iperf-&lt;version#&gt;' with the source files and documentation. 
+Once you have the distribution, unpack it using unzip. 
+That will create a new directory '<tt>iris</tt>' with 
+the source files and documentation. 
 <P>
 
-Iperf compiles cleanly on many systems including Linux, SGI IRIX, HP-UX, 
+IRIS compiles cleanly on many systems including Linux, SGI IRIX, HP-UX, 
 Solaris, AIX, and Cray UNICOS. Use '<TT>make</TT>' to configure for your OS and 
 compile the source code. 
 
 <BLOCKQUOTE><PRE>
 
-gunzip -c iperf-&lt;version&gt;.tar.gz | tar -xvf -
-cd iperf-&lt;version&gt;
+unzip iris-master.zip
+cd iris-master
 ./configure
 make
 
 </PRE></BLOCKQUOTE>
 
-To install iperf, use '<TT>make install</TT>', 
+To install iris, use '<TT>make install</TT>', 
 which will ask you where to install it. To recompile, the easiest way is to 
 start over. Do '<TT>make distclean</TT>' then '<TT>./configure; make</TT>'. See the Makefile 
 for more options. 
 <P>
 
-If you have problems, please report them to <A href="mailto:dast@nlanr.net">dast@nlanr.net</A> and 
+If you have problems, please report them to <A href="mailto:lflj@cin.ufpe.br">lflj@cin.ufpe.br</A> and 
 we will try to fix them quickly. <BR>
 
 <HR>
@@ -76,23 +69,29 @@ we will try to fix them quickly. <BR>
 
 <H2><A name=features></A>Features</H2>
 <UL>
+  <LI>RINA 
+  <UL>
+    <LI>Client can create RINA streams of specified bandwidth or choose 0 in order to use the maximum bandwidth.
+    <LI>Measure packet loss 
+    <LI>Measure delay jitter 
+    <LI>Multicast capable 
+    <LI>Multi-threaded if pthreads are available. Client and server can have 
+    multiple simultaneous connections. (This doesn't work in Windows.) </LI></UL>
+  <LI>UDP 
+  <UL>
+    <LI>Client can create UDP streams of specified bandwidth or choose 0 in order to use the maximum bandwidth. 
+    <LI>Measure packet loss 
+    <LI>Measure delay jitter 
+    <LI>Multicast capable 
+    <LI>Multi-threaded if pthreads are available. Client and server can have 
+    multiple simultaneous connections. (This doesn't work in Windows.) </LI></UL>
   <LI>TCP 
   <UL>
     <LI>Measure bandwidth 
     <LI>Report MSS/MTU size and observed read sizes. 
     <LI>Support for TCP window size via socket buffers. 
     <LI>Multi-threaded if pthreads or Win32 threads are available. Client and 
-    server can have multiple simultaneous connections. 
- <!--   <LI>Suggest the optimal window size for a connection where the OS allows 
-    setting window sizes in the granularity of bytes. </LI>--></UL>
-  <LI>UDP 
-  <UL>
-    <LI>Client can create UDP streams of specified bandwidth. 
-    <LI>Measure packet loss 
-    <LI>Measure delay jitter 
-    <LI>Multicast capable 
-    <LI>Multi-threaded if pthreads are available. Client and server can have 
-    multiple simultaneous connections. (This doesn't work in Windows.) </LI></UL>
+    server can have multiple simultaneous connections.</LI></UL> 
   <LI>Where appropriate, options can be specified with K (kilo-) and M (mega-) 
   suffices. So 128K instead of 131072 bytes. 
   <LI>Can run for specified time, rather than a set amount of data to transfer. 
@@ -107,11 +106,6 @@ we will try to fix them quickly. <BR>
   <LI>Run the server as a Windows NT Service 
   <LI>Use representative streams to test out how link layer compression affects 
   your achievable bandwidth. 
-
-<!--  <LI>A library of <A 
-  href="lib.html">useful functions and C++ 
-  classes.</A> </LI>
--->
 </UL>
 <HR>
 <!-- ----- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- --><BR>&nbsp; 
@@ -152,9 +146,9 @@ we will try to fix them quickly. <BR>
   <TR vAlign=top>
     <TD><A name=len></A><TT>-l, --len <I>#[KM]</I></TT></TD>
     <TD><TT>$IPERF_LEN</TT></TD>
-    <TD>The length of buffers to read or write. Iperf works by writing an 
+    <TD>The length of buffers to read or write. IRIS works by writing an 
       array of <I>len</I> bytes a number of times. Default is 8 KB for TCP, 1470 
-      bytes for UDP. Note for UDP, this is the datagram size and needs to be lowered when using
+      bytes for UDP. Note for UDP or RINA, this is the datagram size and needs to be lowered when using
       IPv6 addressing to 1450 or less to avoid fragmentation. See also the <A 
       href="#num">-n</A> 
       and <A 
@@ -177,6 +171,12 @@ we will try to fix them quickly. <BR>
       to. This should be the same in both client and server. Default is 5001, 
       the same as ttcp.</TD></TR>
   <TR vAlign=top>
+    <TD><A name=udp></A><TT>-A, --rina</TT></TD>
+    <TD><TT>$IPERF_RINA</TT></TD>
+    <TD>Use RINA rather than UDP or TCP. See also the <A 
+      href="#bandwidth">-b</A> 
+      option.</TD></TR>
+  <TR vAlign=top>
     <TD><A name=udp></A><TT>-u, --udp</TT></TD>
     <TD><TT>$IPERF_UDP</TT></TD>
     <TD>Use UDP rather than TCP. See also the <A 
@@ -195,7 +195,7 @@ we will try to fix them quickly. <BR>
       this sets the outbound interface. For a server this sets the incoming 
       interface. This is only useful on multihomed hosts, which have multiple 
       network interfaces.&nbsp; 
-      <P>For Iperf in UDP server mode, this is also used to bind and join to a 
+      <P>For IRIS in UDP server mode, this is also used to bind and join to a 
       multicast group. Use addresses in the range 224.0.0.0 to 239.255.255.255 
       for multicast. See also the <A 
       href="#ttl">-T</A> 
@@ -203,7 +203,7 @@ we will try to fix them quickly. <BR>
   <TR vAlign=top>
     <TD><A name=compatibility></A><TT>-C, --compatibility </TT></TD>
     <TD><TT>$IPERF_COMPAT</TT></TD>
-    <TD>Compatibility mode allows for use with older version of iperf. This mode
+    <TD>Compatibility mode allows for use with older version of iris. This mode
         is not required for interoperability but it is highly recommended. In
         some cases when using representative streaming you could cause a 1.7 server
         to crash or cause undesired connection attempts.</P></TD></TR>
@@ -222,8 +222,8 @@ we will try to fix them quickly. <BR>
   <TR>
     <TD><TT>-V </TT>(from v1.6 or higher)</TD>
     <TD>.</TD>
-    <TD>Bind to an IPv6 address <BR>Server side: <BR>$ iperf -s -V&nbsp; 
-      <P>Client side: <BR>$ iperf -c &lt;Server IPv6 Address&gt; -V 
+    <TD>Bind to an IPv6 address <BR>Server side: <BR>$ iris -s -V&nbsp; 
+      <P>Client side: <BR>$ iris -c &lt;Server IPv6 Address&gt; -V 
       <BR>&nbsp;</P>Note: On version 1.6.3 and later a specific IPv6 Address does
       not need to be bound with the <A href="#bind">-B</A> option, previous 1.6 
       versions do. Also on most OSes using this option will also respond to IPv4
@@ -233,25 +233,25 @@ we will try to fix them quickly. <BR>
   <TR vAlign=top>
     <TD><A name=server></A><TT>-s, --server</TT></TD>
     <TD><TT>$IPERF_SERVER</TT></TD>
-    <TD>Run Iperf in server mode.</TD></TR>
+    <TD>Run IRIS in server mode.</TD></TR>
   <TR>
     <TD><TT>-D </TT> (from v1.2 or higher)</TD>
     <TD>.</TD>
     <TD>Run the server as a daemon (Unix platforms) <BR>On Win32 platforms 
-      where services are available, Iperf will start running as a service.</TD></TR>
+      where services are available, IRIS will start running as a service.</TD></TR>
   <TR>
     <TD><TT>-R </TT>(only for Windows, from v1.2 or higher)</TD>
     <TD>.</TD>
-    <TD>Remove the Iperf service (if it's running).&nbsp;</TD></TR><TR>
+    <TD>Remove the IRIS service (if it's running).&nbsp;</TD></TR><TR>
     <TD><TT>-o </TT>(only for Windows, from v1.2 or higher)</TD>
     <TD>.</TD>
     <TD>Redirect output to given file.&nbsp;</TD></TR>
   <TR vAlign=top>
     <TD><A name=sclient></A><TT>-c, --client <I>host</I></TT></TD>
     <TD><TT>$IPERF_CLIENT</TT></TD>
-    <TD> If Iperf is in server mode, then specifying a host with -c
-        will limit the connections that Iperf will accept to the
-        <I>host</I> specified. Does not work well for UDP.</TD></TR>
+    <TD> If IRIS is in server mode, then specifying a host with -c
+        will limit the connections that IRIS will accept to the
+        <I>host</I> specified. Does not work well for UDP or RINA.</TD></TR>
   <TR vAlign=top>
     <TD><A name=sparallel></A><TT>-P, --parallel <I>#</I></TT></TD>
     <TD><TT>$IPERF_PARALLEL</TT></TD>
@@ -262,26 +262,27 @@ we will try to fix them quickly. <BR>
   <TR vAlign=top>
     <TD><A name=bandwidth></A><TT>-b, --bandwidth <I>#[KM]</I></TT></TD>
     <TD><TT>$IPERF_BANDWIDTH</TT></TD>
-    <TD>The UDP bandwidth to send at, in bits/sec. This implies the -u option. 
-      Default is 1 Mbit/sec.</TD></TR>
+    <TD>The UDP/RINA bandwidth to send at, in bits/sec. This implies the -u option. 
+      Default is 1 Mbit/sec. <BR>Use the 0 value in order to IRIS achieves the maximum 
+      available bandwidth.</TD></TR>
   <TR vAlign=top>
     <TD><A name=client></A><TT>-c, --client <I>host</I></TT></TD>
     <TD><TT>$IPERF_CLIENT</TT></TD>
-    <TD>Run Iperf in client mode, connecting to an Iperf server running on 
-      <I>host</I>.</TD></TR>
+    <TD>Run IRIS in client mode, connecting to an IRIS server running on 
+      <I>host</I>. This option is not necessary for RINA.</TD></TR>
   <TR vAlign=top>
     <TD><A name=dualtest></A><TT>-d, --dualtest </TT></TD>
     <TD><TT>$IPERF_DUALTEST</TT></TD>
-    <TD>Run Iperf in dual testing mode. This will cause the server to connect
+    <TD>Run IRIS in dual testing mode. This will cause the server to connect
         back to the client on the port specified in the
         <A href="#listenport">-L</A> option (or defaults
         to the port the client connected to the server on). This is done immediately
         therefore running the tests simultaneously. If you want an alternating
-        test try <A href="#tradeoff">-r.</A></TD></TR>
+        test try <A href="#tradeoff">-r.</A>. This options does not work for RINA.</TD></TR>
   <TR vAlign=top>
     <TD><A name=num></A><TT>-n, --num <I>#[KM]</I></TT></TD>
     <TD><TT>$IPERF_NUM</TT></TD>
-    <TD>The number of buffers to transmit. Normally, Iperf sends for 10 
+    <TD>The number of buffers to transmit. Normally, IRIS sends for 10 
       seconds. The -n option overrides this and sends an array of <I>len</I> 
       bytes <I>num</I> times, no matter how long that takes. See also the <A 
       href="#len">-l</A> 
@@ -291,7 +292,7 @@ we will try to fix them quickly. <BR>
   <TR vAlign=top>
     <TD><A name=tradeoff></A><TT>-r, --tradeoff </TT></TD>
     <TD><TT>$IPERF_TRADEOFF</TT></TD>
-    <TD>Run Iperf in tradeoff testing mode. This will cause the server to connect
+    <TD>Run IRIS in tradeoff testing mode. This will cause the server to connect
         back to the client on the port specified in the
         <A href="#listenport">-L</A> option (or defaults
         to the port the client connected to the server on). This is done following
@@ -301,7 +302,7 @@ we will try to fix them quickly. <BR>
   <TR vAlign=top>
     <TD><A name=time></A><TT>-t, --time <I>#</I></TT></TD>
     <TD><TT>$IPERF_TIME</TT></TD>
-    <TD>The time in seconds to transmit for. Iperf normally works by 
+    <TD>The time in seconds to transmit for. IRIS normally works by 
       repeatedly sending an array of <I>len</I> bytes for <I>time</I> seconds. 
       Default is 10 seconds. See also the <A 
       href="#len">-l</A> 
@@ -344,17 +345,12 @@ we will try to fix them quickly. <BR>
     <TD><TT>-F</TT> (from v1.2 or higher)</TD>
     <TD>.</TD>
     <TD>Use a representative stream to measure bandwidth, e.g. :-&nbsp; <BR>$ 
-      iperf -c &lt;server address&gt; -F &lt;file-name&gt;</TD></TR>
+      iris -c &lt;server address&gt; -F &lt;file-name&gt;</TD></TR>
   <TR>
     <TD><TT>-I </TT>(from v1.2 or higher)</TD>
     <TD>.</TD>
     <TD>Same as -F, input from stdin.</TD></TR>
- <!-- <TR>
-    <TD><TT>-W </TT>(from v1.2 or higher)</TD>
-    <TD>.</TD>
-    <TD>Adaptive Window Sizes.
-	  <BR>Use Iperf to suggest the best Window size for a connection. Iperf will start from a default window size and try to perform a search for the optimal window size</TD></TR>
--->  <TR>
+  <TR>
     <TH bgColor=#cccccc colSpan=3>Miscellaneous options</TH></TR>
   <TR vAlign=top>
     <TD><A name=help></A><TT>-h, --help</TT></TD>
@@ -371,8 +367,7 @@ we will try to fix them quickly. <BR>
 <!-- ----- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- -->
 <H2><A name=tuningtcp></A>Tuning a TCP connection</H2>
 
-The primary goal of Iperf 
-is to help in tuning TCP connections over a particular path. The most 
+IRIS can to help in tuning TCP connections over a particular path. The most 
 fundamental tuning issue for TCP is the TCP window size, which controls how much 
 data can be in the network at any one point. If it is too small, the sender will 
 be idle at times and get poor performance. The theoretical value to use for the 
@@ -386,7 +381,7 @@ window size; setting it higher or lower may produce better results. In our
 example, buffer sizes over 130K did not improve the performance, despite the 
 bandwidth delay product of 230K. 
 <P>Note that many OSes and hosts have upper limits on the TCP window size. These 
-may be as low as 64 KB, or as high as several MB. Iperf tries to detect when 
+may be as low as 64 KB, or as high as several MB. IRIS tries to detect when 
 these occur and give a warning that the actual and requested window sizes are 
 not equal (as below, though that is due to rounding in IRIX). PSC has a <A 
 href="http://www.psc.edu/networking/perf_tune.html">list detailing</A> how to 
@@ -401,7 +396,7 @@ sizes. Use the adaptive window sizes feature on platforms which allow setting
 window sizes in the granularity of bytes. 
 <BLOCKQUOTE>
 <PRE>
-<B>node2&gt;</B> iperf -s
+<B>node2&gt;</B> iris -s
 ------------------------------------------------------------
 Server listening on TCP port 5001
 TCP window size: 60.0 KByte (default)
@@ -410,7 +405,7 @@ TCP window size: 60.0 KByte (default)
 [ ID] Interval&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Transfer&nbsp;&nbsp;&nbsp;&nbsp; Bandwidth
 [&nbsp; 4]&nbsp; 0.0-10.1 sec&nbsp;&nbsp; 6.5 MBytes&nbsp;&nbsp; <B><FONT color=#ff0000>5.2 Mbits/sec
 
-</FONT>node1&gt;</B> iperf -c node2
+</FONT>node1&gt;</B> iris -c node2
 ------------------------------------------------------------
 Client connecting to node1, TCP port 5001
 TCP window size: 59.9 KByte (default)
@@ -419,7 +414,7 @@ TCP window size: 59.9 KByte (default)
 [ ID] Interval&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Transfer&nbsp;&nbsp;&nbsp;&nbsp; Bandwidth
 [&nbsp; 3]&nbsp; 0.0-10.0 sec&nbsp;&nbsp; 6.5 MBytes&nbsp;&nbsp; 5.2 Mbits/sec</PRE>
   <HR>
-<PRE><B>node2&gt;</B> iperf -s -w 130k
+<PRE><B>node2&gt;</B> iris -s -w 130k
 ------------------------------------------------------------
 Server listening on TCP port 5001
 TCP window size:&nbsp; 130 KByte
@@ -428,7 +423,7 @@ TCP window size:&nbsp; 130 KByte
 [ ID] Interval&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Transfer&nbsp;&nbsp;&nbsp;&nbsp; Bandwidth
 [&nbsp; 4]&nbsp; 0.0-10.1 sec&nbsp; 19.7 MBytes&nbsp; <B><FONT color=#ff0000>15.7 Mbits/sec
 
-</FONT>node1&gt;</B> iperf -c node2 -w 130k
+</FONT>node1&gt;</B> iris -c node2 -w 130k
 ------------------------------------------------------------
 Client connecting to node2, TCP port 5001
 TCP window size:&nbsp; 129 KByte (WARNING: requested&nbsp; 130 KByte)
@@ -440,12 +435,12 @@ test to do is run parallel TCP streams. If the total aggregate bandwidth is more
 than what an individual stream gets, something is wrong. Either the TCP window 
 size is too small, or the OS's TCP implementation has bugs, or the network 
 itself has deficiencies. See above for TCP window sizes; otherwise diagnosing 
-which is somewhat difficult. If Iperf is compiled with pthreads, a single client 
+which is somewhat difficult. If IRIS is compiled with pthreads, a single client 
 and server can test this, otherwise setup multiple clients and servers on 
 different ports. Here's an example where a single stream gets 16.5 Mbit/sec, but 
 two parallel streams together get 16.7 + 9.4 = 26.1 Mbit/sec, even when using 
 large TCP window sizes: 
-<BLOCKQUOTE><PRE><B>node2&gt;</B> iperf -s -w 300k
+<BLOCKQUOTE><PRE><B>node2&gt;</B> iris -s -w 300k
 ------------------------------------------------------------
 Server listening on TCP port 5001
 TCP window size:&nbsp; 300 KByte
@@ -460,7 +455,7 @@ TCP window size:&nbsp; 300 KByte
 [&nbsp; 5]&nbsp; 0.0-10.1 sec&nbsp; 21.0 MBytes&nbsp; <B><FONT color=#ff0000>16.7 Mbits/sec
 </FONT></B>[&nbsp; 4]&nbsp; 0.0-10.3 sec&nbsp; 12.0 MBytes&nbsp;&nbsp;<B><FONT color=#ff0000> 9.4 Mbits/sec
 
-</FONT>node1&gt;</B> ./iperf -c node2 -w 300k
+</FONT>node1&gt;</B> ./iris -c node2 -w 300k
 ------------------------------------------------------------
 Client connecting to node2, TCP port 5001
 TCP window size:&nbsp; 299 KByte (WARNING: requested&nbsp; 300 KByte)
@@ -469,7 +464,7 @@ TCP window size:&nbsp; 299 KByte (WARNING: requested&nbsp; 300 KByte)
 [ ID] Interval&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Transfer&nbsp;&nbsp;&nbsp;&nbsp; Bandwidth
 [&nbsp; 3]&nbsp; 0.0-10.2 sec&nbsp; 20.9 MBytes&nbsp; 16.4 Mbits/sec
 
-<B>node1&gt;</B> iperf -c node2 -w 300k -P 2
+<B>node1&gt;</B> iris -c node2 -w 300k -P 2
 ------------------------------------------------------------
 Client connecting to node2, TCP port 5001
 TCP window size:&nbsp; 299 KByte (WARNING: requested&nbsp; 300 KByte)
@@ -486,7 +481,7 @@ support Path MTU Discovery. Hosts without Path MTU Discovery often use 536 as
 the MSS, which wastes bandwidth and processing time. Use the -m option to 
 display what MSS is being used, and see if this matches what you expect. Often 
 it is around 1460 bytes for ethernet. 
-<BLOCKQUOTE><PRE><B>node3&gt;</B> iperf -s -m
+<BLOCKQUOTE><PRE><B>node3&gt;</B> iris -s -m
 ------------------------------------------------------------
 Server listening on TCP port 5001
 TCP window size: 60.0 KByte (default)
@@ -500,7 +495,7 @@ TCP window size: 60.0 KByte (default)
 [&nbsp; 4]&nbsp; 1448 bytes read&nbsp; 1128 times (83.6%)</PRE></BLOCKQUOTE>Here 
 is a host that doesn't support Path MTU Discovery. It will only send and receive 
 small 576 byte packets. 
-<BLOCKQUOTE><PRE><B>node4&gt;</B> iperf -s -m
+<BLOCKQUOTE><PRE><B>node4&gt;</B> iris -s -m
 ------------------------------------------------------------
 Server listening on TCP port 5001
 TCP window size: 32.0 KByte (default)
@@ -513,7 +508,7 @@ TCP window size: 32.0 KByte (default)
 </FONT></B>[&nbsp; 4] Read lengths occurring in more than 5% of reads:
 [&nbsp; 4]&nbsp;&nbsp; 536 bytes read&nbsp;&nbsp; 308 times (58.4%)
 [&nbsp; 4]&nbsp; 1072 bytes read&nbsp;&nbsp;&nbsp; 91 times (17.3%)
-[&nbsp; 4]&nbsp; 1608 bytes read&nbsp;&nbsp;&nbsp; 29 times (5.5%)</PRE></BLOCKQUOTE>Iperf 
+[&nbsp; 4]&nbsp; 1608 bytes read&nbsp;&nbsp;&nbsp; 29 times (5.5%)</PRE></BLOCKQUOTE>IRIS 
 supports other tuning options, which were added for exceptional network 
 situations like HIPPI-to-HIPPI over ATM. <BR>
 <HR>
@@ -521,7 +516,7 @@ situations like HIPPI-to-HIPPI over ATM. <BR>
 
 <H2><A name=tuningudp></A>Tuning a UDP connection</H2>
 
-Iperf creates a constant bit rate UDP stream. This is a very artificial 
+IRIS creates a constant bit rate UDP stream. This is a very artificial 
 stream, similar to voice communication but not much else. 
 <P>
 
@@ -535,7 +530,7 @@ the entire datagram. To measure packet loss instead of datagram loss, make the
 datagrams small enough to fit into a single packet, using the -l option. The 
 default size of 1470 bytes works for ethernet. Out-of-order packets are also 
 detected. (Out-of-order packets cause some ambiguity in the lost packet count; 
-Iperf assumes they are not duplicate packets, so they are excluded from the lost 
+IRIS assumes they are not duplicate packets, so they are excluded from the lost 
 packet count.) Since TCP does not report loss to the user, I find UDP tests 
 helpful to see packet loss along a path. 
 <P>
@@ -546,7 +541,7 @@ packet. The server computes the relative transit time as (server's receive time
 - client's send time). The client's and server's clocks do not need to be 
 synchronized; any difference is subtracted out in the jitter calculation. Jitter 
 is the smoothed mean of differences between consecutive transit times. 
-<BLOCKQUOTE><PRE><B>node2&gt;</B> iperf -s -u -i 1
+<BLOCKQUOTE><PRE><B>node2&gt;</B> iris -s -u -i 1
 ------------------------------------------------------------
 Server listening on UDP port 5001
 Receiving 1470 byte datagrams
@@ -565,7 +560,7 @@ UDP buffer size: 60.0 KByte (default)
 [&nbsp; 4]&nbsp; 8.0- 9.0 sec&nbsp;&nbsp; 1.3 MBytes&nbsp; 10.0 Mbits/sec&nbsp; 0.282 ms&nbsp;&nbsp;&nbsp; 0/&nbsp; 892 (0%)
 [&nbsp; 4]&nbsp; 0.0-10.0 sec&nbsp; 12.5 MBytes&nbsp; 10.0 Mbits/sec&nbsp; 0.243 ms&nbsp;&nbsp;&nbsp; 1/ 8922 (0.011%)
 
-<B>node1&gt;</B> iperf -c node2 -u -b 10m
+<B>node1&gt;</B> iris -c node2 -u -b 10m
 ------------------------------------------------------------
 Client connecting to node2, UDP port 5001
 Sending 1470 byte datagrams
@@ -579,7 +574,7 @@ datagram reassembly when using larger 32 KB datagrams, each split into 23
 packets of 1500 bytes. The higher datagram loss seen here may be due to the 
 burstiness of the traffic, which is 23 back-to-back packets and then a long 
 pause, rather than evenly spaced individual packets. 
-<BLOCKQUOTE><PRE><B>node2&gt;</B> iperf -s -u -l 32k -w 128k -i 1
+<BLOCKQUOTE><PRE><B>node2&gt;</B> iris -s -u -l 32k -w 128k -i 1
 ------------------------------------------------------------
 Server listening on UDP port 5001
 Receiving 32768 byte datagrams
@@ -599,7 +594,7 @@ UDP buffer size:&nbsp; 128 KByte
 [&nbsp; 3]&nbsp; 9.0-10.0 sec&nbsp;&nbsp; 1.2 MBytes&nbsp; 10.0 Mbits/sec&nbsp; 0.407 ms&nbsp;&nbsp;&nbsp; 0/&nbsp;&nbsp; 40 (0%)
 [&nbsp; 3]&nbsp; 0.0-10.0 sec&nbsp; 12.3 MBytes&nbsp;&nbsp; 9.8 Mbits/sec&nbsp; 0.407 ms&nbsp;&nbsp;&nbsp; 7/&nbsp; 401 (1.7%)
 
-<B>node1&gt;</B> iperf -c node2 -b 10m -l 32k -w 128k
+<B>node1&gt;</B> iris -c node2 -b 10m -l 32k -w 128k
 ------------------------------------------------------------
 Client connecting to node2, UDP port 5001
 Sending 32768 byte datagrams
@@ -617,7 +612,7 @@ group address and setting the TTL (-T, --ttl) as needed. Unlike normal TCP and
 UDP tests, multicast servers may be started after the client. In that case, 
 datagrams sent before the server started show up as losses in the first periodic 
 report (61 datagrams on arno below). 
-<BLOCKQUOTE><PRE><B>node5&gt;</B> iperf -c 224.0.67.67 -u --ttl 5 -t 5
+<BLOCKQUOTE><PRE><B>node5&gt;</B> iris -c 224.0.67.67 -u --ttl 5 -t 5
 ------------------------------------------------------------
 Client connecting to 224.0.67.67, UDP port 5001
 Sending 1470 byte datagrams
@@ -629,7 +624,7 @@ UDP buffer size: 32.0 KByte (default)
 [&nbsp; 3]&nbsp; 0.0- 5.0 sec&nbsp;&nbsp; 642 KBytes&nbsp;&nbsp; 1.0 Mbits/sec
 [&nbsp; 3] Sent 447 datagrams
 
-<B>node5&gt;</B> iperf -s -u -B 224.0.67.67 -i 1
+<B>node5&gt;</B> iris -s -u -B 224.0.67.67 -i 1
 ------------------------------------------------------------
 Server listening on UDP port 5001
 Binding to local address 224.0.67.67
@@ -646,7 +641,7 @@ UDP buffer size: 32.0 KByte (default)
 [&nbsp; 3]&nbsp; 4.0- 5.0 sec&nbsp;&nbsp; 128 KBytes&nbsp;&nbsp; 1.0 Mbits/sec&nbsp; 0.008 ms&nbsp;&nbsp;&nbsp; 0/&nbsp;&nbsp; 89 (0%)
 [&nbsp; 3]&nbsp; 0.0- 5.0 sec&nbsp;&nbsp; 642 KBytes&nbsp;&nbsp; 1.0 Mbits/sec&nbsp; 0.008 ms&nbsp;&nbsp;&nbsp; 0/&nbsp; 447 (0%)
 
-<B>node6&gt;</B> iperf -s -u -B 224.0.67.67 -i 1
+<B>node6&gt;</B> iris -s -u -B 224.0.67.67 -i 1
 ------------------------------------------------------------
 Server listening on UDP port 5001
 Binding to local address 224.0.67.67
@@ -665,9 +660,9 @@ UDP buffer size: 60.0 KByte (default)
 <DL>
   <DT><B><FONT size=+2>IPv6 Mode</FONT></B> 
   <DD>Download the IPv6 version of this release.<BR>Get the IPv6 address of the node using the 'ifconfig' command.<BR>Use the <FONT color=#000099>-V</FONT> option to indicate that you are using an IPv6 address Please note that we need to explicitly bind the server address also. 
-  <P>Server side:<BR><FONT color=#000099> $ iperf -s -V</FONT>
-  <P>Client side:<BR><FONT color=#000099>$ iperf -c &lt;Server IPv6 Address&gt; -V </FONT>
-  <P>Note: Iperf version 1.6.2 and eariler require a IPv6 address to be explicitly bound
+  <P>Server side:<BR><FONT color=#000099> $ iris -s -V</FONT>
+  <P>Client side:<BR><FONT color=#000099>$ iris -c &lt;Server IPv6 Address&gt; -V </FONT>
+  <P>Note: IRIS version 1.6.2 and eariler require a IPv6 address to be explicitly bound
   with the <A HREF="#bind">-B</A> option for the server.</P></DD></DL>
 <HR>
 <P><A name=repmode></A>
@@ -679,77 +674,46 @@ UDP buffer size: 60.0 KByte (default)
   use the -F option to test it. This is usually due to the link layer 
   compressing data. 
   <P>The -F option is for file input.<BR>The -I option is for input from stdin. 
-  <P>E.g. <BR>Client: $ <FONT color=#000099> iperf -c &lt;server address&gt; -F &lt;file-name&gt;<BR></FONT>
-          <BR>Client: $ <FONT color=#000099> iperf -c &lt;server address&gt; -I </FONT></P></DD></DL>
+  <P>E.g. <BR>Client: $ <FONT color=#000099> iris -c &lt;server address&gt; -F &lt;file-name&gt;<BR></FONT>
+          <BR>Client: $ <FONT color=#000099> iris -c &lt;server address&gt; -I </FONT></P></DD></DL>
 <P><A name=daemon></A>
 <HR>
 <DL>
   <DT><B><FONT size=+2>Running the server as a daemon</FONT></B> 
   <DD>Use the -D command line option to run the server as a daemon. Redirect the 
-  output to a file.<BR>E.g. <FONT color=#000099>iperf -s -D &gt; 
-  iperfLog</FONT>. <FONT color=#000000>This will have the Iperf Server running 
-  as a daemon and the server messages will be logged in the file iperfLog. 
+  output to a file.<BR>E.g. <FONT color=#000099>iris -s -D &gt; 
+  irisLog</FONT>. <FONT color=#000000>This will have the IRIS Server running 
+  as a daemon and the server messages will be logged in the file irisLog. 
 </DD></DL>
 <HR>
 <P><A name=service></A>
 <DL>
-  <DT><B><FONT size=+2>Using Iperf as a Service under Win32</FONT></B> 
+  <DT><B><FONT size=+2>Using IRIS as a Service under Win32</FONT></B> 
   <DD>There are three options for Win32: 
   <P>
   <DL>
     <DT>-o outputfilename 
     <DD>output the messages into the specified file 
     <DT>-s -D 
-    <DD>install Iperf as a service and run it 
+    <DD>install IRIS as a service and run it 
     <DT>-s -R 
-    <DD>uninstall the Iperf service </DD></DL>
+    <DD>uninstall the IRIS service </DD></DL>
   <P>Examples: 
   <DL>
-    <DT><FONT color=#3366ff>iperf -s -D -o iperflog.txt</FONT> 
-    <DD>will install the Iperf service and run it. Messages will be reported 
-    into "%windir%\system32\iperflog.txt" 
+    <DT><FONT color=#3366ff>iris -s -D -o irislog.txt</FONT> 
+    <DD>will install the IRIS service and run it. Messages will be reported 
+    into "%windir%\system32\irislog.txt" 
     <P></P>
-    <DT><FONT color=#3366ff>iperf -s -R</FONT> 
-    <DD>will uninstall the Iperf service if it is installed. 
-    <P>Note: If you stop want to restart the Iperf service after having killed 
+    <DT><FONT color=#3366ff>iris -s -R</FONT> 
+    <DD>will uninstall the IRIS service if it is installed. 
+    <P>Note: If you stop want to restart the IRIS service after having killed 
     it with the Microsoft Management Console or the Windows Task Manager, make 
     sure to use the proper OPTION in the service properties dialog. 
   </P></DD></DL></DD></DL>
 <HR>
-<!--<P><A name=multicast></A>
-<DL>
-  <DT><B><FONT size=+2>Running the multicast server and client</FONT></B> 
-  <DD>Use the -B option while starting the server to bind it to a multicast 
-  address.<BR>E.g. :-<FONT color=#3366ff>iperf -s -u -B 224.0.55.55</FONT>. 
-
-  <P>This will have the Iperf server listening for datagrams (-u) for the 
-  address 224.0.55.55(-B 224.0.55.55). 
-  <P>Now, start a client sending packets to this multicast address. 
-  <P>E.g. : <FONT color=#3366ff>iperf -c 224.0.55.55 -u</FONT>. 
-  This will have a UDP client (-u) sending to the multicast address 
-  224.0.55.55(-c 224.0.55.55). 
-  <P><FONT color=#000000>Start multiple clients or servers as explained above, 
-  sending data to the same multicast server. (If you have multiple servers 
-  listening on the multicast address, each of the servers will be getting the data) 
-</P></DD></DL>
-<HR>-->
-<!--<A name=adaptive></A>
-<DL>
-  <DT><B><FONT size=+2>Adaptive window sizes</FONT></B> 
-  <DD>Use the -W option on the client to run the client with the adaptive window 
-  size. Ensure that the server window size is fairly big for this 
-  option.<BR>E.g.. If the server TCP window size is 8KB, it does not help having 
-  a client TCP window size of 256KB.<BR>256KB Server TCP Window Size should 
-  suffice for most high bandwidth networks. 
-  <P>Client changes the TCP window size using a binary exponential 
-  algorithm. This means that you may notice that TCP window size suggested may 
-  vary according to the traffic in the network, Iperf will suggest the best 
-  window size for the current network scenario. 
-</DL>
-<HR width="100%">
---><P><!-- ----- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- -->
+<P><!-- ----- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- -->
 <CENTER>
-<P>Copyright 1999,2000,2001,2002,2003,2004 <BR>The Board of Trustees of the University of 
+<P>Iperf is Copyright 1999,2000,2001,2002,2003,2004 <BR>The Board of Trustees of the University of 
 Illinois <BR>All rights reserved <BR>See <A 
 href="ui_license.html">UI License</A> for 
 complete details.</CENTER>

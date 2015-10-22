@@ -1,1 +1,1 @@
-EXTRA_DIST = index.html ui_license.html dast.gif
+EXTRA_DIST = index.html iperf.html ui_license.html dast.gif cin.gif
