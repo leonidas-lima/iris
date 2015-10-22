@@ -38,4 +38,5 @@ Gerrit Renker <grenker@users.sourceforge.net>
 Leonidas Lima <lflj@cin.ufpe.br>
   * include RINA support (-A option)
   * include maximum bandwidth support with -b option
+  * enhance precision of -b option, using delay between transmissions in nanoseconds
   * fix problem of limmited bandwidth with low size packets 
