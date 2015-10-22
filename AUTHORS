@@ -34,3 +34,8 @@ Nathan Jones <nmjones@users.sourceforge.net>
 
 Gerrit Renker <grenker@users.sourceforge.net>
   * replace costly gettimeofday() with nanonsleep()
+
+Leonidas Lima <lflj@cin.ufpe.br>
+  * include RINA support (-A option)
+  * include maximum bandwidth support with -b option
+  * fix problem of limmited bandwidth with low size packets 
